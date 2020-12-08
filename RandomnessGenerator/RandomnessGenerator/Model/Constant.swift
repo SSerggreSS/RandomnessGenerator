@@ -16,12 +16,12 @@ struct Constant {
             static let height: CGFloat = 150.0
         }
         struct Font {
-            static let size: CGFloat = 50
+            static let size: CGFloat = 30
         }
     }
     
     struct Cell {
-        static let height: CGFloat = 40.0
+        static let height: CGFloat = 60.0
     }
     
     struct TextField {
@@ -38,8 +38,8 @@ struct Constant {
     
     struct Section {
         struct Title {
-            static let forFirst =  "Диапазон рандомного числа"
-            static let forSecond = "История рандомных чисел"
+            static let forFirst =  "          The range of random numbers"
+            static let forSecond = "          History of random numbers"
         }
     }
     

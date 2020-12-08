@@ -6,21 +6,35 @@
 //
 
 import UIKit
+import CoreData
+
+fileprivate let identifier = "reuseIdentifier"
 
 class SettingsTableVC: UITableViewController {
 
-    let labels: [UILabel] = {
+    var context: NSManagedObjectContext! = nil
+    var randomnessItems: [RandomnessItem]! = nil
+    
+    let dateFormatter: DateFormatter = {
+       let df = DateFormatter()
+        df.dateFormat = "HH:mm E, d MMM y"
+        return df
+    }()
+    
+    //MARK: - UI Elements
+    let labelsForMinAndMax: [UILabel] = {
         var labels = [UILabel]()
         for i in 0...1 {
             var l = UILabel(frame: CGRect.zero)
+            l.textColor = .black
             l.tag = i
             l.translatesAutoresizingMaskIntoConstraints = false
             l.font = UIFont(name: l.font.fontName, size: Constant.Label.Font.size)
-            l.backgroundColor = .gray
+            l.backgroundColor = .orange
             if i == 0 {
-                l.text = "Minimum"
+                l.text = "Min Number"
             } else {
-                l.text = "Maximum"
+                l.text = "Max number"
             }
             labels.append(l)
         }
@@ -34,8 +48,9 @@ class SettingsTableVC: UITableViewController {
             tf.tag = i
             tf.translatesAutoresizingMaskIntoConstraints = false
             tf.font = UIFont(name: tf.font!.fontName, size: Constant.TextField.Font.size)
-            tf.borderStyle = .bezel
-            tf.backgroundColor = .gray
+            tf.textColor = .black
+            tf.borderStyle = .none
+            tf.backgroundColor = .orange
             tf.keyboardType = .numberPad
             tf.adjustsFontSizeToFitWidth = true
             tf.returnKeyType = .done
@@ -75,12 +90,22 @@ class SettingsTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         textFields.first?.becomeFirstResponder()
         textFields[0].text = UserSettings.numberMinString
         textFields[1].text = UserSettings.numberMaxString
         numberMin = UserSettings.numberMin
         numberMax = UserSettings.numberMax
         print("numberMin = \(numberMin), numberMax = \(numberMax)")
+        
+        let fetchRequest: NSFetchRequest = RandomnessItem.fetchRequest()
+        do {
+        randomnessItems = try context.fetch(fetchRequest)
+           // print(randomnessItems.first?.date, randomnessItems.first?.number)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
     }
     //9223372036854775807
     override func viewWillDisappear(_ animated: Bool) {
@@ -121,18 +146,20 @@ class SettingsTableVC: UITableViewController {
          case .first:
             numberOfRows = 4
          case .second:
-            numberOfRows = 1
+            numberOfRows = randomnessItems.count
          }
         return numberOfRows
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = "reuseIdentifier"
-        var cell = tableView.dequeueReusableCell(withIdentifier: identifier) ?? UITableViewCell()
+        
+        var cell = UITableViewCell()
         
         guard let typeSection = TypeSection(rawValue: indexPath.section) else { return UITableViewCell()}
         
         if typeSection == .first {
+            cell = tableView.dequeueReusableCell(withIdentifier: identifier) ?? UITableViewCell()
+            
             let typeCell = TypeByCellContent.init(rawValue: indexPath.row) ?? TypeByCellContent.labelMin
             switch typeCell {
             case .labelMin:
@@ -145,7 +172,10 @@ class SettingsTableVC: UITableViewController {
                 cell = configureFourth(cell: cell)
             }
         } else if typeSection == .second {
-            cell.textLabel?.text = "21/11/20"
+            cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.reuseIdentifier) ?? HistoryCell()
+            
+            cell = configureHistoryRandomnessItemIn(cell: cell, indexPath: indexPath)
+            return cell 
         }
         
         return cell
@@ -160,11 +190,12 @@ class SettingsTableVC: UITableViewController {
     }
     
     private func setupLayoutForFirst(cell: UITableViewCell) {
-        let labelMin = labels[0]
+        let labelMin = labelsForMinAndMax[0]
         cell.addSubview(labelMin)
         
         NSLayoutConstraint.activate(
-            [labelMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+            [
+             labelMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
              labelMin.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
              labelMin.topAnchor.constraint(equalTo: cell.topAnchor),
              labelMin.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
@@ -184,7 +215,8 @@ class SettingsTableVC: UITableViewController {
         cell.addSubview(textFieldMin)
         
         NSLayoutConstraint.activate(
-            [textFieldMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+            [
+             textFieldMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
              textFieldMin.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
              textFieldMin.topAnchor.constraint(equalTo: cell.topAnchor),
              textFieldMin.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
@@ -199,7 +231,7 @@ class SettingsTableVC: UITableViewController {
     }
     
     private func setupLayoutForThird(cell: UITableViewCell) {
-        let labelMax = labels[1]
+        let labelMax = labelsForMinAndMax[1]
         cell.addSubview(labelMax)
         
         NSLayoutConstraint.activate(
@@ -231,6 +263,16 @@ class SettingsTableVC: UITableViewController {
         )
     }
     
+    private func configureHistoryRandomnessItemIn(cell: UITableViewCell, indexPath: IndexPath) -> HistoryCell {
+        guard let randomItem = randomnessItems?[indexPath.row] else { return HistoryCell() }
+        
+        let historyCell = cell as! HistoryCell
+        historyCell.labelDate.text = "Date: " + dateFormatter.string(from: randomItem.date!)
+        historyCell.labelRandomNumber.text = "Number: " + String(randomItem.number)
+        
+        return historyCell
+    }
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -252,8 +294,8 @@ class SettingsTableVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let selectedCell = tableView.cellForRow(at: indexPath)
+       tableView.deselectRow(at: indexPath, animated: true)
+       let selectedCell = tableView.cellForRow(at: indexPath)
 
         let tf = selectedCell?.getTextField() ?? UITextField()
         tf.becomeFirstResponder()
@@ -377,4 +419,9 @@ extension SettingsTableVC: UITextFieldDelegate {
         
     }
     
+extension SettingsTableVC {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+}
 

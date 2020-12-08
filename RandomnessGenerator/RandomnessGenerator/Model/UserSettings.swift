@@ -28,7 +28,6 @@ final class UserSettings {
     }
     
     static var numberMinString: String {
-        //print("numberMin = \(numberMin)")
         return  String(numberMin)
     }
     
@@ -43,7 +42,6 @@ final class UserSettings {
     }
     
     static var numberMaxString: String {
-        //print("numberMax = \(numberMax)")
         return  String(numberMax)
     }
     

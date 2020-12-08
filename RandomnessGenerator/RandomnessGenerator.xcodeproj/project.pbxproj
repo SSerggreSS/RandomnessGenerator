@@ -11,6 +11,11 @@
 		EE5A4A0725681A1A00F435DE /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5A4A0625681A1A00F435DE /* Enums.swift */; };
 		EE5B749E2563278900D6020A /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B749D2563278900D6020A /* ExtensionUITableViewCell.swift */; };
 		EE872146256B044A00DE3A3C /* LabelRandomNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE872145256B044A00DE3A3C /* LabelRandomNumber.swift */; };
+		EE8DD2AA257E9181007D49D3 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD2A9257E9181007D49D3 /* DataBaseManager.swift */; };
+		EE8DD2AE257E93C8007D49D3 /* RandomnessGenerator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD2AC257E93C8007D49D3 /* RandomnessGenerator.xcdatamodeld */; };
+		EE8DD2B2257E99FB007D49D3 /* RandomnessItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD2B0257E99FB007D49D3 /* RandomnessItem+CoreDataClass.swift */; };
+		EE8DD2B3257E99FB007D49D3 /* RandomnessItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD2B1257E99FB007D49D3 /* RandomnessItem+CoreDataProperties.swift */; };
+		EE8DD2BB257EA2BF007D49D3 /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD2BA257EA2BF007D49D3 /* HistoryCell.swift */; };
 		EEC414032568709300329CAC /* ExtensionUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC414022568709300329CAC /* ExtensionUITextField.swift */; };
 		EEE52D6E2561A584009C8D35 /* RandomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE52D6D2561A584009C8D35 /* RandomGenerator.swift */; };
 		EEE7527D255ED447006BCB3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE7527C255ED447006BCB3B /* AppDelegate.swift */; };
@@ -28,6 +33,11 @@
 		EE5A4A0625681A1A00F435DE /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		EE5B749D2563278900D6020A /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		EE872145256B044A00DE3A3C /* LabelRandomNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelRandomNumber.swift; sourceTree = "<group>"; };
+		EE8DD2A9257E9181007D49D3 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
+		EE8DD2AD257E93C8007D49D3 /* RandomnessGenerator.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RandomnessGenerator.xcdatamodel; sourceTree = "<group>"; };
+		EE8DD2B0257E99FB007D49D3 /* RandomnessItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RandomnessItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		EE8DD2B1257E99FB007D49D3 /* RandomnessItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RandomnessItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		EE8DD2BA257EA2BF007D49D3 /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		EEC414022568709300329CAC /* ExtensionUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextField.swift; sourceTree = "<group>"; };
 		EEE52D6D2561A584009C8D35 /* RandomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGenerator.swift; sourceTree = "<group>"; };
 		EEE75279255ED447006BCB3B /* RandomnessGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RandomnessGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				EEE75293255ED556006BCB3B /* NavigationVC.swift */,
+				EE8DD2BA257EA2BF007D49D3 /* HistoryCell.swift */,
 				EEE75280255ED447006BCB3B /* ViewController.swift */,
 				EEE752A1255EE48C006BCB3B /* StartButton.swift */,
 				EE872145256B044A00DE3A3C /* LabelRandomNumber.swift */,
@@ -95,6 +106,33 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		EE8DD2A8257E9169007D49D3 /* DataBaseManager */ = {
+			isa = PBXGroup;
+			children = (
+				EE8DD2A9257E9181007D49D3 /* DataBaseManager.swift */,
+			);
+			path = DataBaseManager;
+			sourceTree = "<group>";
+		};
+		EE8DD2B6257E9A31007D49D3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EE8DD2AC257E93C8007D49D3 /* RandomnessGenerator.xcdatamodeld */,
+				EE8DD2B1257E99FB007D49D3 /* RandomnessItem+CoreDataProperties.swift */,
+				EE8DD2B0257E99FB007D49D3 /* RandomnessItem+CoreDataClass.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EE8DD2B8257E9A39007D49D3 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				EE8DD2A8257E9169007D49D3 /* DataBaseManager */,
+				EE8DD2B6257E9A31007D49D3 /* Model */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
 		EEE75270255ED447006BCB3B = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +152,7 @@
 		EEE7527B255ED447006BCB3B /* RandomnessGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				EE8DD2B8257E9A39007D49D3 /* DataBase */,
 				EE5EF1E8256CF5FA00BC8FC2 /* AppDelegate */,
 				EE5EF1E7256CF5BD00BC8FC2 /* Views */,
 				EE5B74A02563279200D6020A /* Model */,
@@ -191,15 +230,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE8DD2BB257EA2BF007D49D3 /* HistoryCell.swift in Sources */,
 				EE5B749E2563278900D6020A /* ExtensionUITableViewCell.swift in Sources */,
 				EE56E77C25698BAA0082231B /* UserSettings.swift in Sources */,
+				EE8DD2B2257E99FB007D49D3 /* RandomnessItem+CoreDataClass.swift in Sources */,
 				EEE52D6E2561A584009C8D35 /* RandomGenerator.swift in Sources */,
 				EE5A4A0725681A1A00F435DE /* Enums.swift in Sources */,
+				EE8DD2AA257E9181007D49D3 /* DataBaseManager.swift in Sources */,
 				EEE752A2255EE48C006BCB3B /* StartButton.swift in Sources */,
+				EE8DD2B3257E99FB007D49D3 /* RandomnessItem+CoreDataProperties.swift in Sources */,
 				EEE75281255ED447006BCB3B /* ViewController.swift in Sources */,
 				EEE75297255ED5B0006BCB3B /* SettingsTableVC.swift in Sources */,
 				EEE7527D255ED447006BCB3B /* AppDelegate.swift in Sources */,
 				EEC414032568709300329CAC /* ExtensionUITextField.swift in Sources */,
+				EE8DD2AE257E93C8007D49D3 /* RandomnessGenerator.xcdatamodeld in Sources */,
 				EEE752A5255EE6E3006BCB3B /* Constant.swift in Sources */,
 				EE872146256B044A00DE3A3C /* LabelRandomNumber.swift in Sources */,
 				EEE75294255ED556006BCB3B /* NavigationVC.swift in Sources */,
@@ -332,6 +376,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N7YS6H752M;
 				INFOPLIST_FILE = RandomnessGenerator/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -351,6 +396,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N7YS6H752M;
 				INFOPLIST_FILE = RandomnessGenerator/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -386,6 +432,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EE8DD2AC257E93C8007D49D3 /* RandomnessGenerator.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EE8DD2AD257E93C8007D49D3 /* RandomnessGenerator.xcdatamodel */,
+			);
+			currentVersion = EE8DD2AD257E93C8007D49D3 /* RandomnessGenerator.xcdatamodel */;
+			path = RandomnessGenerator.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EEE75271255ED447006BCB3B /* Project object */;
 }

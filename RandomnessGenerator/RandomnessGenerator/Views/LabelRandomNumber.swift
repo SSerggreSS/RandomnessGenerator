@@ -11,9 +11,8 @@ import UIKit
 class LabelNumberRandom: UILabel {
     
     override func draw(_ rect: CGRect) {
-
         let path = UIBezierPath(ovalIn: rect)
-        UIColor.red.setFill()
+        UIColor.orange.setFill()
         path.fill()
         super.draw(rect)
     }

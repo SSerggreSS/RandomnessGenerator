@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
     //MARK: Properties
+    
+    var context: NSManagedObjectContext! = nil
     
     var randomGenerator = RandomGenerator()
     
@@ -21,9 +24,7 @@ class ViewController: UIViewController {
                     action: #selector(startButtonAction(sender:)),
                     for: .touchUpInside)
         b.titleLabel?.font = UIFont(name: (b.titleLabel?.font.fontName)!, size: 30)
-        //b.setTitle("Touch", for: .normal)
-        //b.setTitle("", for: .highlighted)
-        b.backgroundColor = .red
+        b.backgroundColor = .orange
         return b
     }()
     
@@ -37,24 +38,32 @@ class ViewController: UIViewController {
             self.randomNumberLabel.text = String(randomNumber)
         }
         
+        DispatchQueue.global().async {
+            let randomnessItem = RandomnessItem(context: self.context)
+            randomnessItem.date = Date()
+            randomnessItem.number = Int64(randomNumber)
+            DataBaseManager.saveContext()
+        }
+        
     }
     
     var randomNumberLabel: LabelNumberRandom = {
         let l = LabelNumberRandom()
         l.font = UIFont(name: l.font.fontName, size: 100)
         l.textAlignment = .center
-        l.text = "777777777777"
-        l.isHidden = true
+        l.textColor = .black
+        l.text = "Click Everywhere To Generate"
         l.adjustsFontSizeToFitWidth = true
         l.numberOfLines = 5
         l.minimumScaleFactor = 0.1
-        
+    
         return l
     }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         settingBarButtonItem()
         settingRandomButton()
         setupRandomNumberLabel()
@@ -74,6 +83,7 @@ class ViewController: UIViewController {
     
     @objc private func goToSettingsTableVC() {
         let settingsTVC = SettingsTableVC()
+        settingsTVC.context = self.context
         self.navigationController?.pushViewController(settingsTVC, animated: true)
     }
 
@@ -92,7 +102,6 @@ class ViewController: UIViewController {
     
     private func setupRandomNumberLabel() {
         randomNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        randomNumberLabel.isHidden = false
         randomNumberLabel.sizeToFit()
         view.addSubview(randomNumberLabel)
         
