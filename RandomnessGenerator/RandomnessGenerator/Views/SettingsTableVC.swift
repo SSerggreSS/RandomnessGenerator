@@ -17,7 +17,7 @@ class SettingsTableVC: UITableViewController {
     
     let dateFormatter: DateFormatter = {
        let df = DateFormatter()
-        df.dateFormat = "HH:mm E, d MMM y"
+        df.dateFormat = "yyyy-MMM-dd 'Time'-HH:mm:ss.SSS"
         return df
     }()
     
@@ -91,22 +91,51 @@ class SettingsTableVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "SETTINGS"
+        
         textFields.first?.becomeFirstResponder()
+        
+        setRightBarButtonItem()
+        extractingDataFromUserDefaults()
+        extractingDataFromDataBase()
+    }
+    
+    private func setRightBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashHistoryBarButtonItemTappedAction(sender:)))
+    }
+    
+    @objc private func trashHistoryBarButtonItemTappedAction(sender: UIBarButtonItem) {
+        DispatchQueue.global(qos: .background).async {
+            self.randomnessItems.forEach { (randomnessItem) in
+                self.context.delete(randomnessItem)
+            }
+            self.randomnessItems.removeAll()
+        }
+        tableView.reloadData()
+    }
+    
+    private func extractingDataFromUserDefaults() {
         textFields[0].text = UserSettings.numberMinString
         textFields[1].text = UserSettings.numberMaxString
         numberMin = UserSettings.numberMin
         numberMax = UserSettings.numberMax
         print("numberMin = \(numberMin), numberMax = \(numberMax)")
+    }
+    
+    private func extractingDataFromDataBase() {
         
         let fetchRequest: NSFetchRequest = RandomnessItem.fetchRequest()
+        let currentDate = NSDate()
+        let predicate = NSPredicate(format: "date < %@", currentDate)
+        fetchRequest.predicate = predicate
         do {
-        randomnessItems = try context.fetch(fetchRequest)
-           // print(randomnessItems.first?.date, randomnessItems.first?.number)
+            randomnessItems = try context.fetch(fetchRequest).reversed()
         } catch let error as NSError {
             print(error.localizedDescription)
         }
         
     }
+    
     //9223372036854775807
     override func viewWillDisappear(_ animated: Bool) {
         if self.isMovingFromParent {
@@ -195,10 +224,10 @@ class SettingsTableVC: UITableViewController {
         
         NSLayoutConstraint.activate(
             [
-             labelMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-             labelMin.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-             labelMin.topAnchor.constraint(equalTo: cell.topAnchor),
-             labelMin.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
+                 labelMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+                 labelMin.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+                 labelMin.topAnchor.constraint(equalTo: cell.topAnchor),
+                 labelMin.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
             ]
         )
     }
@@ -216,10 +245,10 @@ class SettingsTableVC: UITableViewController {
         
         NSLayoutConstraint.activate(
             [
-             textFieldMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-             textFieldMin.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-             textFieldMin.topAnchor.constraint(equalTo: cell.topAnchor),
-             textFieldMin.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
+                 textFieldMin.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+                 textFieldMin.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+                 textFieldMin.topAnchor.constraint(equalTo: cell.topAnchor),
+                 textFieldMin.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
             ]
         )
     }
@@ -235,10 +264,11 @@ class SettingsTableVC: UITableViewController {
         cell.addSubview(labelMax)
         
         NSLayoutConstraint.activate(
-            [labelMax.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-             labelMax.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-             labelMax.topAnchor.constraint(equalTo: cell.topAnchor),
-             labelMax.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
+            [
+                 labelMax.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+                 labelMax.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+                 labelMax.topAnchor.constraint(equalTo: cell.topAnchor),
+                 labelMax.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
             ]
         )
     }
@@ -255,10 +285,11 @@ class SettingsTableVC: UITableViewController {
         cell.addSubview(textFieldMax)
         
         NSLayoutConstraint.activate(
-            [textFieldMax.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-             textFieldMax.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-             textFieldMax.topAnchor.constraint(equalTo: cell.topAnchor),
-             textFieldMax.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
+            [
+                 textFieldMax.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
+                 textFieldMax.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+                 textFieldMax.topAnchor.constraint(equalTo: cell.topAnchor),
+                 textFieldMax.bottomAnchor.constraint(equalTo: cell.bottomAnchor)
             ]
         )
     }
@@ -300,26 +331,7 @@ class SettingsTableVC: UITableViewController {
         let tf = selectedCell?.getTextField() ?? UITextField()
         tf.becomeFirstResponder()
     }
-    
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
 }
 
 //MARK: Text Field Delegate
@@ -328,28 +340,32 @@ extension SettingsTableVC: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
        
-        if numberMin > numberMax {
-            let temporaryNumber = numberMin
-            numberMin = numberMax
-            numberMax = temporaryNumber
-            textFields[0].text = "\(numberMin)"
-            textFields[1].text = "\(numberMax)"
-            
-            print("min = \(numberMin), max = \(numberMax)")
-        }
+        checkingMinimumIsAlwaysLessThanTheMaximum()
         
         switch textField.type {
-        case .minimum where (textFields[1].text?.isEmpty ?? true):
+        case .minimum where (textFields.last?.text?.isEmpty ?? true):
             numberMax = UserSettings.numberMax
-            textFields[1].text = UserSettings.numberMaxString
-        case .maximum where (textFields[0].text?.isEmpty ?? true):
+            textFields.last?.text = UserSettings.numberMaxString
+        case .maximum where (textFields.first?.text?.isEmpty ?? true):
             numberMin = UserSettings.numberMin
-            textFields[0].text = UserSettings.numberMinString
+            textFields.first?.text = UserSettings.numberMinString
         default:
             break
         }
         
         return true
+    }
+    
+    private func checkingMinimumIsAlwaysLessThanTheMaximum() {
+        if numberMin > numberMax {
+            let temporaryNumber = numberMin
+            numberMin = numberMax
+            numberMax = temporaryNumber
+            textFields.first?.text = numberMin.stringValue
+            textFields.last?.text = numberMax.stringValue
+            
+            print("min = \(numberMin), max = \(numberMax)")
+        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -364,29 +380,20 @@ extension SettingsTableVC: UITextFieldDelegate {
         print("0case - newString = \(newString), string = \(string), range = \(range), textField.text = \(textField.text)")
         
         let number = Int(newString)
-        
-        
-        
+
         print("number = \(number) int.max = \(Int.max)")
         
-        //if let number = number, number <= Int.max {
             print("1case - newString = \(newString), string = \(string), range = \(range)")
             let typeTextField = TypeTextField.init(rawValue: textField.tag) ?? .minimum
             switch typeTextField {
             case .minimum where number != nil && number! <= Int.max :
-                //print("min")
-                //stringFromMinTextField += string
                 numberMin = number!
                 textField.text = newString
                 UserSettings.numberMin = numberMin
-                //print("numberMin = \(numberMin)")
             case .maximum where number != nil && number! <= Int.max:
-                //print("max")
-                //stringFromMaxTextField += string
                 numberMax = number!
                 textField.text = newString
                 UserSettings.numberMax = numberMax
-                //print("numberMax = \(numberMax)")
             case .minimum where newString == Constant.Strings.emptyString:
                 textField.text = newString
                 numberMin = 0
@@ -395,27 +402,11 @@ extension SettingsTableVC: UITextFieldDelegate {
                 numberMax = 0
             default :
                 break
-            } //else if newString == "" {
+            }
                 
-            //}
-        let textFieldOfMinimumIsEmpty = textFields[0].text?.isEmpty ?? false
-        
-        if textFieldOfMinimumIsEmpty {
-            numberMin = 0
-        }
-        
-        let textFieldOfMaximumIsEmpty = textFields[1].text?.isEmpty ?? false
-        
-        if textFieldOfMaximumIsEmpty {
-            numberMax = 0
-        }
-        
         return false
         }
-//        else {
-//            print("3case - newString = \(newString), string = \(string), range = \(range)")
-//            textField.text = newString
-//        }
+
         
     }
     

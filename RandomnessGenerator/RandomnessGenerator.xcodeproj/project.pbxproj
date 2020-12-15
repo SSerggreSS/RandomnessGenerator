@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE501D9A25800DAC0079461F /* ExtensionInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE501D9925800DAC0079461F /* ExtensionInt.swift */; };
 		EE56E77C25698BAA0082231B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE56E77B25698BAA0082231B /* UserSettings.swift */; };
 		EE5A4A0725681A1A00F435DE /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5A4A0625681A1A00F435DE /* Enums.swift */; };
 		EE5B749E2563278900D6020A /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B749D2563278900D6020A /* ExtensionUITableViewCell.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE501D9925800DAC0079461F /* ExtensionInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionInt.swift; sourceTree = "<group>"; };
 		EE56E77B25698BAA0082231B /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		EE5A4A0625681A1A00F435DE /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		EE5B749D2563278900D6020A /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				EE5B749D2563278900D6020A /* ExtensionUITableViewCell.swift */,
+				EE501D9925800DAC0079461F /* ExtensionInt.swift */,
 				EEC414022568709300329CAC /* ExtensionUITextField.swift */,
 			);
 			path = Extensions;
@@ -232,6 +235,7 @@
 			files = (
 				EE8DD2BB257EA2BF007D49D3 /* HistoryCell.swift in Sources */,
 				EE5B749E2563278900D6020A /* ExtensionUITableViewCell.swift in Sources */,
+				EE501D9A25800DAC0079461F /* ExtensionInt.swift in Sources */,
 				EE56E77C25698BAA0082231B /* UserSettings.swift in Sources */,
 				EE8DD2B2257E99FB007D49D3 /* RandomnessItem+CoreDataClass.swift in Sources */,
 				EEE52D6E2561A584009C8D35 /* RandomGenerator.swift in Sources */,
